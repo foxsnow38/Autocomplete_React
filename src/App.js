@@ -1,47 +1,40 @@
 
+import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
 
 function App() {
-  const data = [
-    {
-      id:1,
-      title:"test1"
-    },
-    {
-      id:2,
-      title:"Test1"
-    },  
-    {
-      id:3,
-      title:"deneme1"
-    },
 
-    {
-      id:4,
-      title:"Deneme1"
-    }
-
-  ]
+const [data,setData]=useState(`null`)
   const [search, setSearch] = useState(``)
   const [result, setResult] = useState([])
   const searchRef = useRef()
   const isTyping = search.length>0
 useEffect(() => {
+(async ()=>{
+  const  axi= await  axios(`https://jsonplaceholder.typicode.com/comments`)
+  setData(axi.data)
+  
+})()
+ 
   document.addEventListener("mousedown",handleClickOutside)
   return document.removeEventListener("mousedown",handleClickOutside)
    }
+
+
 , [])
 const handleClickOutside = (e) => {
+
   if (searchRef.current && !searchRef.current.contains(e.target)){
     setSearch("")
+  
 
   }
  }
 
   useEffect(() => {
-    if(isTyping) {
-setResult(data.filter((item) => item.title.toLowerCase().includes(search.toLowerCase())))}
+    if(isTyping && data!=null ) {
+setResult(data.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())))}
 else{ setResult([])}
   },[search])
   return (
@@ -52,7 +45,7 @@ else{ setResult([])}
       <div className="search-result">
 {result.length>0 && isTyping &&
   result.map( item => 
-    <div  key={item.id} className="search-result-item"> {item.title} </div>
+    <div  key={item.id} className="search-result-item"> {item.name} </div>
   )
 }
 
