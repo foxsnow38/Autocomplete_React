@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
+import Card from './card';
 
 function App() {
 
@@ -45,7 +46,8 @@ else{ setResult([])}
       <div className="search-result">
 {result.length>0 && isTyping &&
   result.map( item => 
-    <div  key={item.id} className="search-result-item"> {item.name} </div>
+    <div  key={item.id} className="search-result-item"> <Card item={item}>
+      </Card> </div>
   )
 }
 
